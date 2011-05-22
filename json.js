@@ -105,7 +105,7 @@
               next();
               if (ch === 'u') {
                 uffff = 0;
-                for (i = 0; i <= 3; i++) {
+                for (i = 0; i < 4; i++) {
                   hex = parseInt(next(), 16);
                   if (!isFinite(hex)) {
                     break;

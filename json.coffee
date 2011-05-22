@@ -71,7 +71,7 @@ class _JSON
                         next()
                         if ch is 'u'
                             uffff = 0
-                            for i in [0..3]
+                            for i in [0...4]
                                 hex = parseInt(next(), 16)
                                 break if not isFinite(hex)
                                 uffff *= 16 + hex
