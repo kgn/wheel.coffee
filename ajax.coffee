@@ -24,5 +24,5 @@ class _ajax
 # Register the wheel namespace if it hasn't been done yet
 @wh = {} if not @wh
 
-# Add ajaz to wheel
+# Add ajax to wheel
 @wh.ajax = new _ajax()
