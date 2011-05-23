@@ -9,12 +9,9 @@ class _ajax
         xmlhttp.open('GET', url, async); xmlhttp.send()
         
         callback.call(if type is 'xml' then xmlhttp.responseXML else xmlhttp.responseText) if callback and not async
-            
-    getText: (url, callback=null, async=true) ->
-        get('text', url, callback, async)
-        
-    getXML: (url, callback=null, async=true) ->
-        get('xml', url, callback, async)      
+
+    getText: (url, callback=null, async=true) -> get('text', url, callback, async)
+    getXML: (url, callback=null, async=true) -> get('xml', url, callback, async)
 
 #TODO: implement post
 #xmlhttp.open("POST","ajax_test.asp",true);
