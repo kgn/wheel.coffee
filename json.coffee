@@ -1,14 +1,20 @@
-# Add JSON to browsers that don't support it natively
-# https://developer.mozilla.org/En/Using_JSON_in_Firefox
+# Adds **JSON** to browsers that don't support it natively.
+# `_JSON` and `_toJSON` are also added so this library can be explicitly used.
+# More information about JSON can be found at [Using JSON in Firefox](https://developer.mozilla.org/En/Using_JSON_in_Firefox).
 
-# Based on:
-# https://github.com/douglascrockford/JSON-js/blob/master/json_parse.js
-# https://github.com/douglascrockford/JSON-js/blob/master/json2.js
+# Based on Douglas Crockford's
+# [json_parse.js](https://github.com/douglascrockford/JSON-js/blob/master/json_parse.js) and 
+# [json2.js](https://github.com/douglascrockford/JSON-js/blob/master/json2.js).
 
-# Format integers to have at least two digits
+# A helper function to format integers to have at least two digits.
 _f = (n) -> if n < 10 then "0#{n}" else n
 
-# Add _toJSON methods to standard types and alias toJSON if native functions don't exist
+# toJSON methods
+# ========
+
+# Add `_toJSON` methods to standard types, and alias `toJSON` if native functions don't exist.
+
+#Add `_toJSON` to date objects.
 Date::_toJSON = (key) ->
     if isFinite(@valueOf()) then (
         @getUTCFullYear()         + '-' +
@@ -22,12 +28,22 @@ Date::_toJSON = (key) ->
 if not Date::toJSON
     Date::toJSON = Date::_toJSON
 
+#Add `_toJSON` to strings, numbers and booleans.
 String::_toJSON = Number::_toJSON = Boolean::_toJSON = (key) -> @valueOf()
 String::toJSON = String::_toJSON if not String::toJSON
 Number::toJSON = Number::_toJSON if not Number::toJSON
 Boolean::toJSON = Boolean::_toJSON if not Boolean::toJSON
 
+# The JSON class
+# ========
+
 class _JSON
+    # JSON.parse
+    # --------
+    
+    # To convert a JSON string into a JavaScript object, you simply pass the JSON into the `JSON.parse()` method, like this:
+    
+    # `var jsObject = JSON.parse(jsonString);`
     parse: (text) ->
         return if not text
         at = null; ch = ' '
@@ -37,7 +53,7 @@ class _JSON
             error("Expected '#{c}' instead of '#{ch}") if c and c isnt ch
             ch = text.charAt(at++)#null is converted to 0, then we start iterating from there
             
-        # Parse a number
+        # Parse a number.
         number = ->
             string = ''
             if ch is '-'
@@ -60,7 +76,7 @@ class _JSON
                 return _number
             return
             
-        # Parse a string
+        # Parse a string.
         string = ->
             _string = ''
             if ch is '"'
@@ -84,10 +100,10 @@ class _JSON
                         _string += ch
             error('Bad string'); return
             
-        # Skip whitespace
+        # Skip whitespace.
         white = -> next() while ch and ch <= ' '; return
         
-        # Parse true, false, or null
+        # Parse true, false, or null.
         word = ->
             switch ch
                 when 't'
@@ -98,7 +114,7 @@ class _JSON
                     next('n'); next('u'); next('l'); next('l'); null
             error('Unexpected #{ch}'); return
             
-        # Parse an array
+        # Parse an array.
         array = ->
             _array = []
             if ch is '['
@@ -112,7 +128,7 @@ class _JSON
                     next(','); white()
             error('Bad array'); return
             
-        # Parse an object
+        # Parse an object.
         object = ->
             _object = {}
             if ch is '{'
@@ -144,10 +160,23 @@ class _JSON
                 else        
                     return if ch >= '0' && ch <= '9' then number() else word()
         
+        # Kick off the parser and return the results.
         result = value(); white()
         error('Syntax error') if ch
         result
     
+    # JSON.stringify
+    # --------
+    
+    # To convert a JavaScript object into a JSON string, pass the object into the `JSON.stringify()` method:
+    
+    # `var jsonString = JSON.stringify({'user': 'John Doe', 'time': new Date(), 'hobies': ['fishing', 'skiing', 'sailing']});`
+    
+    # `JSON.stringify()` offers additional customization capabilities through the use of optional parameters. The syntax is:
+    
+    # * **value**: The JavaScript object to convert into a JSON string.
+    # * **replacer**: A function that alters the behavior of the stringification process, or an array of String and Number objects that serve as a whitelist for selecting the properties of the value object to be included in the JSON string. If this value is null or not provided, all properties of the object are included in the resulting JSON string.
+    # * **space**: A String or Number object that's used to insert white space into the output JSON string for readability purposes. If this is a Number, it indicates the number of space characters to use as white space; this number is capped at 10 if it's larger than that. Values less than 1 indicate that no space should be used. If this is a String, the string (or the first 10 characters of the string, if it's longer than that) is used as white space. If this parameter is not provided (or is null), no white space is used.
     stringify: (value, replacer=null, space=0) ->
         gap = ''; indent = ''
         escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g
@@ -169,8 +198,9 @@ class _JSON
         str = (key, holder) ->
             mind = gap
             _value = holder[key]
-            # Use _toJSON so we fully use this library
+            # Use `_toJSON` so we fully use this library.
             _value = _value._toJSON(key) if _value and typeof _value is 'object' and typeof _value._toJSON is 'function'
+            # If a replacer function was passed in run the key and value through it.
             _value = replacer.call(holder, key, _value) if typeof replacer is 'function'
             
             switch typeof _value
@@ -205,10 +235,14 @@ class _JSON
                             if gap then '{\n' + gap + partial.join(',\n' + gap) + '\n' + mind + '}'
                             else '{' + partial.join(',') + '}'
                         gap = mind; v
+        # Kick off the stringification and return the result.
         str('', {'': value})
 
-# Make _JSON avalible incase we want to use this object instead of the native one
+# Exposing the class
+# ========
+
+# Make `_JSON` avalible incase we want to use this object instead of the native one.
 @_JSON = new _JSON()
 
-# Alias JSON if it's not nativly supported
+# Alias `JSON` if it's not nativly supported.
 @JSON = @_JSON if not @JSON

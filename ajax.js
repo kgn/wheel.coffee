@@ -6,9 +6,6 @@
     get = function(type, url, callback, async) {
       var xmlhttp;
       xmlhttp = window.ActiveXObject ? new window.ActiveXObject('Microsoft.XMLHTTP') : new window.XMLHttpRequest();
-      if (xmlhttp.overrideMimeType) {
-        xmlhttp.overrideMimeType = 'application/json';
-      }
       if (callback && async) {
         xmlhttp.onreadystatechange = function() {
           if (xmlhttp.readyState === 4) {
