@@ -153,10 +153,11 @@ class _JSON
         escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g
         meta = '\b': '\\b', '\t': '\\t', '\n': '\\n', '\f': '\\f', '\r': '\\r', '"' : '\\"', '\\': '\\\\'
         max = (a, b) -> if a > b then a else b
+        min = (a, b) -> if a < b then a else b
         if typeof space is 'number'
-            indent += ' ' for i in [0...max(space, 0)]
+            indent += ' ' for i in [0...min(max(space, 0), 10)]
         else if typeof space is 'string'
-            indent = space
+            indent += space[s] for s in [0...min(space.length, 10)]
         throw new Error('JSON.stringify') if replacer and typeof replacer isnt 'function' and (typeof replacer isnt 'object' or typeof replacer.length isnt 'number')
         
         quote = (string) ->

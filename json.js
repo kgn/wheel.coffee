@@ -235,7 +235,7 @@
       return result;
     };
     _JSON.prototype.stringify = function(value, replacer, space) {
-      var escapable, gap, i, indent, max, meta, quote, str, _ref;
+      var escapable, gap, i, indent, max, meta, min, quote, s, str, _ref, _ref2;
       if (replacer == null) {
         replacer = null;
       }
@@ -261,12 +261,21 @@
           return b;
         }
       };
+      min = function(a, b) {
+        if (a < b) {
+          return a;
+        } else {
+          return b;
+        }
+      };
       if (typeof space === 'number') {
-        for (i = 0, _ref = max(space, 0); 0 <= _ref ? i < _ref : i > _ref; 0 <= _ref ? i++ : i--) {
+        for (i = 0, _ref = min(max(space, 0), 10); 0 <= _ref ? i < _ref : i > _ref; 0 <= _ref ? i++ : i--) {
           indent += ' ';
         }
       } else if (typeof space === 'string') {
-        indent = space;
+        for (s = 0, _ref2 = min(space.length, 10); 0 <= _ref2 ? s < _ref2 : s > _ref2; 0 <= _ref2 ? s++ : s--) {
+          indent += space[s];
+        }
       }
       if (replacer && typeof replacer !== 'function' && (typeof replacer !== 'object' || typeof replacer.length !== 'number')) {
         throw new Error('JSON.stringify');
