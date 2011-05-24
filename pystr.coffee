@@ -21,7 +21,7 @@ String::startswith = (s) -> new RegExp("^#{s}").test(@)
 String::endswith = (s) -> return false if s.charAt(s.length-i) isnt @charAt(@length-i) for i in [s.length...0]; return true
 
 # Capitalize the first character in the string.
-String::capitalize = -> l = @lower(); (l.charAt(c) or '').upper()+(l.charAt(c) for c in [1...l.length]).join('')
+String::capitalize = -> l = @lower(); (l.charAt(0) or '').upper()+(l.charAt(c) for c in [1...l.length]).join('')
 
 # Capitalize every word in the string.
 String::title = -> (word.capitalize() for word in @split(' ')).join(' ')
