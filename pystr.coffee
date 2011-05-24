@@ -33,7 +33,7 @@ String::istitle = -> @ is @title()
 String::lstrip = (c) -> c = c or '\\s\\s*'; @.replace(new RegExp("^#{c}"), '')
 
 # Strip characters from the end of the string, if no characters are passed in white space will be stripped.
-String::rstrip = (c) -> c = c or '\\s'; re = new RegExp(c); i = @length; `while(re.test(this.charAt(--i)))`; @[0...i+1]
+String::rstrip = (c) -> c = c or '\\s'; re = new RegExp(c); i = @length; continue while re.test(@charAt(--i)); @[0...i+1]
 
 # Strip characters from the front and end of the string, if no characters are passed in white space will be stripped.
 # Use the native `trim` if it's available and only whitespace is being stripped.
