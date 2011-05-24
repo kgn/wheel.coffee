@@ -1,6 +1,7 @@
 # Some useful string functions ported from python.
 
-# Regular expressions are only used when finding parts at the front of the string, based on this post about a [Faster JavaScript Trim](http://blog.stevenlevithan.com/archives/faster-trim-javascript).
+# Regular expressions are only used when finding parts at the front of the string, based on this post about a 
+# [Faster JavaScript Trim](http://blog.stevenlevithan.com/archives/faster-trim-javascript).
 
 # Lower case all characters in the string, alias of `toLowerCase`.
 String::lower = String::toLowerCase
