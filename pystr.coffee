@@ -38,5 +38,5 @@ String::rstrip = (c) -> re = new RegExp(c or '\\s'); i = @length; continue while
 
 # Strip characters from the front and end of the string, if no characters are passed in white space will be stripped.
 # Use the native `trim` if it's available and only whitespace is being stripped.
-String::strip = (c) -> return @trim() if not c and @trim; c = c or '\\s'; @lstrip(c).rstrip(c)
+String::strip = (c) -> return @trim() if not c and @trim; @lstrip(c).rstrip(c)
     
