@@ -27,7 +27,7 @@
   String.prototype.capitalize = function() {
     var c, l;
     l = this.lower();
-    return (l.charAt(c) || '').upper() + ((function() {
+    return (l.charAt(0) || '').upper() + ((function() {
       var _ref, _results;
       _results = [];
       for (c = 1, _ref = l.length; 1 <= _ref ? c < _ref : c > _ref; 1 <= _ref ? c++ : c--) {
@@ -53,22 +53,21 @@
     return this === this.title();
   };
   String.prototype.lstrip = function(c) {
-    c = c || '\\s\\s*';
-    return this.replace(new RegExp("^" + c), '');
+    return this.replace(new RegExp("^" + (c || '\\s\\s*')), '');
   };
   String.prototype.rstrip = function(c) {
     var i, re;
-    c = c || '\\s';
-    re = new RegExp(c);
+    re = new RegExp(c || '\\s');
     i = this.length;
-    while(re.test(this.charAt(--i)));
+    while (re.test(this.charAt(--i))) {
+      continue;
+    }
     return this.slice(0, i + 1);
   };
   String.prototype.strip = function(c) {
     if (!c && this.trim) {
       return this.trim();
     }
-    c = c || '\\s';
     return this.lstrip(c).rstrip(c);
   };
 }).call(this);
