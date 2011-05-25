@@ -1,9 +1,7 @@
 # Require libraries
 {spawn, exec} = require 'child_process'
 {log, error} = console; print = log
-http = require('http')
-querystring = require('querystring')
-fs = require('fs')
+fs = require 'fs'
 
 # Start a subproc.
 run = (name, args...) ->
@@ -19,33 +17,6 @@ shell = (cmds, callback) ->
         print trimStdout if trimStdout = stdout.trim()
         error stderr.trim() if err
         callback() if callback
-    )
-
-# Minify a javascript file.
-# Uses [Marijn Haverbeke's](http://marijnhaverbeke.nl/uglifyjs) HTTP API.
-minify = (file, callback) ->
-    #read the file
-    fs.readFile(file, 'utf8', (err, data) ->
-        #throw new Error(err) if err
-        
-        args = {}
-        args.js_code = data
-        args.compilation_level = 'WHITESPACE_ONLY'
-        args.output_format = 'text'
-        args.output_info = 'compiled_code'
-
-        request = http.request({
-            method: 'POST', port: 80,
-            host: 'marijnhaverbeke.nl',
-            path: "/uglifyjs?#{querystring.stringify(args)}"
-            }, (response) ->
-                return if not response.statusCode is 200
-                response.setEncoding('utf8')
-                response.on('data', (text) ->
-                    callback(text, file) if callback
-                )
-            )
-        request.end()
     )
 
 # **watch**: continually compile the coffee scripts
@@ -88,16 +59,15 @@ task('minify', 'compile the coffee scripts and minify the javascript files', (op
         throw err if err
         for file in files
             continue if not /\.js$/.test(file) or /\.min\.js$/.test(file)
-            minify(file, (text, file) ->
-                nameparts = file.split('.')
-                nameparts[nameparts.length-1] = 'min'
-                nameparts.push('js')
-                newname = nameparts.join('.')
-                print "minify: #{file} -> #{newname}"
-                fs.writeFile(newname, text, (writeerr) ->
-                    throw writeerr if writeerr
-                )
-            )
+            
+            # Create min.js filename
+            nameparts = file.split('.')
+            nameparts[nameparts.length-1] = 'min'
+            nameparts.push('js')
+            newname = nameparts.join('.')
+            print "minify: #{file} -> #{newname}"
+            
+            shell("uglifyjs --output #{newname} #{file}")
     )
 )
 
