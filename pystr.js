@@ -52,22 +52,52 @@
   String.prototype.istitle = function() {
     return this === this.title();
   };
-  String.prototype.lstrip = function(c) {
-    return this.replace(new RegExp("^" + (c || '\\s\\s*')), '');
+  String.prototype.lstrip = function(s) {
+    if (s == null) {
+      s = '\\s\\s*';
+    }
+    return this.replace(new RegExp("^" + s), '');
   };
-  String.prototype.rstrip = function(c) {
+  String.prototype.rstrip = function(s) {
     var i, re;
-    re = new RegExp(c || '\\s');
+    if (s == null) {
+      s = '\\s';
+    }
+    re = new RegExp(s);
     i = this.length;
     while (re.test(this.charAt(--i))) {
       continue;
     }
     return this.slice(0, i + 1);
   };
-  String.prototype.strip = function(c) {
-    if (!c && this.trim) {
+  String.prototype.strip = function(s) {
+    if (!s && this.trim) {
       return this.trim();
     }
-    return this.lstrip(c).rstrip(c);
+    return this.lstrip(s).rstrip(s);
+  };
+  String.prototype.count = function(s) {
+    var t, _ref;
+    return t = ((_ref = this.match(new RegExp(s, 'g'))) != null ? _ref.length : void 0) || 0;
+  };
+  String.prototype.find = String.prototype.indexOf;
+  String.prototype.isalnum = function() {
+    var _ref;
+    return ((_ref = this.match(/[A-z0-9]+/)) != null ? _ref[0] : void 0) === this.toString();
+  };
+  String.prototype.isalpha = function() {
+    var _ref;
+    return ((_ref = this.match(/[A-z]+/)) != null ? _ref[0] : void 0) === this.toString();
+  };
+  String.prototype.isdigit = function() {
+    var _ref;
+    return ((_ref = this.match(/\d+/)) != null ? _ref[0] : void 0) === this.toString();
+  };
+  String.prototype.isspace = function() {
+    var _ref;
+    return ((_ref = this.match(/\s+/)) != null ? _ref[0] : void 0) === this.toString();
+  };
+  String.prototype.join = function(a) {
+    return a.join(this);
   };
 }).call(this);
