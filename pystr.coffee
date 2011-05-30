@@ -3,23 +3,46 @@
 # Regular expressions are only used when finding parts at the front of the string, based on this post about a 
 # [Faster JavaScript Trim](http://blog.stevenlevithan.com/archives/faster-trim-javascript).
 
-# Return a copy of the string with all characters lower cased, alias of `toLowerCase`.
+# Helper functions, these are not exposed.
+isArray = (a) -> Object::toString.apply(a) is '[object Array]'
+makeArray = (a) -> return a if isArray(a); return [a]
+isCaseable = (c) -> c.length and /[A-Za-z]/.test(c)
+endswith = (s, c) ->
+    for i in [c.length...0]
+        return false if c.charAt(c.length-i) isnt s.charAt(s.length-i)
+    return true
+
+# Return a copy of the string with all characters converted to lowercase, alias of `toLowerCase`.
 String::lower = String::toLowerCase
 
-# Return a copy of the string with all characters upper cased, alias of `toUpperCase`.
+# Return a copy of the string with all characters converted to uppercase, alias of `toUpperCase`.
 String::upper = String::toUpperCase
 
-# Test if the string is lower.
-String::islower = -> @ is @lower()
+# Test if the string is lower and there is at least one cased character.
+String::islower = -> return true if @toString() is @lower() and isCaseable(@); return false
 
-# Test if the string is upper.
-String::isupper = -> @ is @upper()
+# Test if the string is upper and there is at least one cased character.
+String::isupper = -> return true if @toString() is @upper() and isCaseable(@); return false
 
 # Test if the string starts with a string.
-String::startswith = (s) -> new RegExp("^#{s}").test(@)
+# With optional start, test the string beginning at that position.
+# With optional end, stop comparing the string at that position.
+# Prefix can also be an array of strings to try.
+String::startswith = (c, s, e) ->
+    t = @slice(s, e)
+    for a in makeArray(c)
+        return true if new RegExp("^#{a}").test(t)
+    return false
 
 # Test if the string ends with a string.
-String::endswith = (s) -> return false if s.charAt(s.length-i) isnt @charAt(@length-i) for i in [s.length...0]; return true
+# With optional start, test the string beginning at that position.
+# With optional end, stop comparing the string at that position.
+# Suffix can also be an array of strings to try.
+String::endswith = (c, s, e) -> 
+    t = @slice(s, e)
+    for a in makeArray(c)
+        return true if endswith(t, a)
+    return false
 
 # Return a copy of the string with only its first character capitalized.
 String::capitalize = -> l = @lower(); (l.charAt(0) or '').upper()+(l.charAt(c) for c in [1...l.length]).join('')
@@ -27,12 +50,12 @@ String::capitalize = -> l = @lower(); (l.charAt(0) or '').upper()+(l.charAt(c) f
 # Return a copy of the string with only the first character of every word capitalized.
 String::title = -> (word.capitalize() for word in @split(' ')).join(' ')
 
-# Test if the string is title.
-String::istitle = -> @ is @title()
+# Test if the string is title and there is at least one cased character.
+String::istitle = -> return true if @toString() is @title() and isCaseable(@); return false
 
 # Return a copy of the string with leading whitespace removed, 
 # if characters are passed in thoes characters will be removed instead.
-String::lstrip = (s='\\s\\s*') -> @.replace(new RegExp("^#{s}"), '')
+String::lstrip = (s) -> ss = '\\s\\s*'; ss = "(#{s})+" if s?; @.replace(new RegExp("^#{ss}"), '')
 
 # Return a copy of the string with trailing whitespace removed, 
 # if characters are passed in thoes characters will be removed instead.
@@ -51,10 +74,11 @@ String::count = (s) -> t = @match(new RegExp(s, 'g'))?.length or 0
 String::find = String::indexOf
 
 # Test if all characters in the string are alphanumeric.
-String::isalnum = -> @match(/[A-z0-9]+/)?[0] is @toString()
+# Use `A-Za-z` instead of `A-z` becuase `A-z` matches `-` for some reason...
+String::isalnum = -> @match(/[A-Za-z0-9]+/)?[0] is @toString()
 
 # Test if all characters in the string are alphabetic.
-String::isalpha = -> @match(/[A-z]+/)?[0] is @toString()
+String::isalpha = -> @match(/[A-Za-z]+/)?[0] is @toString()
 
 # Test if all characters in the string are digits.
 String::isdigit = -> @match(/\d+/)?[0] is @toString()

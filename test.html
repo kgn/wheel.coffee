@@ -1,3 +1,239 @@
 <script src="json.js"></script>
 <script src="ajax.js"></script>
+
 <script src="pystr.js"></script>
+<script>
+    //islower
+    if('abcabc'.islower() !== true){
+        throw new Error("'abcabc'.islower() !== true");
+    }
+    if('abcABC'.islower() !== false){
+        throw new Error("'abcABC'.islower() !== false");
+    }    
+    if(''.islower() !== false){
+        throw new Error("''.islower() !== false");
+    }  
+    if(' '.islower() !== false){
+        throw new Error("' '.islower() !== false");
+    }      
+    if('_'.islower() !== false){
+        throw new Error("'_'.islower() !== false");
+    } 
+    if('abc123'.islower() !== true){
+        throw new Error("'abc123'.islower() !== true");
+    } 
+    if('12'.islower() !== false){
+        throw new Error("'12'.islower() !== false");
+    }  
+    if('12a'.islower() !== true){
+        throw new Error("'12a'.islower() !== true");
+    } 
+    
+    //isupper
+    if('ABCABC'.isupper() !== true){
+        throw new Error("'ABCABC'.isupper() !== true");
+    }
+    if('abcABC'.islower() !== false){
+        throw new Error("'abcABC'.islower() !== false");
+    }      
+    if(''.isupper() !== false){
+        throw new Error("''.isupper() !== false");
+    }  
+    if(' '.isupper() !== false){
+        throw new Error("' '.isupper() !== false");
+    }      
+    if('_'.isupper() !== false){
+        throw new Error("'_'.isupper() !== false");
+    } 
+    if('ABC123'.isupper() !== true){
+        throw new Error("'abc123'.isupper() !== true");
+    } 
+    if('12'.isupper() !== false){
+        throw new Error("'12'.isupper() !== false");
+    }  
+    if('12A'.isupper() !== true){
+        throw new Error("'12a'.isupper() !== true");
+    }                    
+
+    // startswith
+    if('abcabc'.startswith('abc') !== true){
+        throw new Error("'abcabc'.startswith('abc') !== true");
+    }
+    if('abcabc'.startswith('abc', 2) !== false){
+        throw new Error("'abcabc'.startswith('abc', 2) !== false");
+    }     
+    if('abcabc'.startswith('abc', 3) !== true){
+        throw new Error("'abcabc'.startswith('abc', 3) !== true");
+    } 
+    if('abcabc'.startswith(['abc']) !== true){
+        throw new Error("'abcabc'.startswith(['abc']) !== true");
+    } 
+    if('abcabc'.startswith(['def']) !== false){
+        throw new Error("'abcabc'.startswith(['def']) !== false");
+    }  
+    if('abcabc'.startswith(['def', 'abc']) !== true){
+        throw new Error("'abcabc'.startswith(['def', 'abc']) !== true");
+    }   
+    
+    // endswith
+    if('abcabc'.endswith('abc') !== true){
+        throw new Error("'abcabc'.endswith('abc') !== true");
+    }   
+    if('abcabc'.endswith('abc', 2) !== true){
+        throw new Error("'abcabc'.endswith('abc', 2) !== true");
+    }
+    if('abcabc'.endswith('abc', 0, -2) !== false){
+        throw new Error("'abcabc'.endswith('abc', 0, -2) !== false");
+    }         
+    if('abcabc'.endswith(['abc']) !== true){
+        throw new Error("'abcabc'.endswith(['abc']) !== true");
+    } 
+    if('abcabc'.endswith(['def']) !== false){
+        throw new Error("'abcabc'.endswith(['def']) !== false");
+    } 
+    if('abcabc'.endswith(['def', 'abc']) !== true){
+        throw new Error("'abcabc'.endswith(['def', 'abc']) !== true");
+    }
+    
+    // capitalize
+    if('abc'.capitalize() !== 'Abc'){
+        throw new Error("'abc'.capitalize() !== 'Abc'");
+    }
+    if('ABC'.capitalize() !== 'Abc'){
+        throw new Error("'ABC'.capitalize() !== 'Abc'");
+    }    
+    if('words on a page'.capitalize() !== 'Words on a page'){
+        throw new Error("'words on a page'.capitalize() !== 'Words on a page'");
+    }    
+    if('123'.capitalize() !== '123'){
+        throw new Error("'123'.capitalize() !== '123'");
+    }        
+    
+    //istitle
+    if('Abc Abc'.istitle() !== true){
+        throw new Error("'Abc Abc'.istitle() !== true");
+    }
+    if('Abc abc'.istitle() !== false){
+        throw new Error("'Abc abc'.istitle() !== false");
+    }
+    if(''.istitle() !== false){
+        throw new Error("''.istitle() !== false");
+    }
+    if(' '.istitle() !== false){
+        throw new Error("' '.istitle() !== false");
+    }
+    if('_'.istitle() !== false){
+        throw new Error("'_'.istitle() !== false");
+    } 
+    if('Abc 123'.istitle() !== true){
+        throw new Error("'Abc 123'.istitle() !== true");
+    }  
+    if('12'.istitle() !== false){
+        throw new Error("'12'.istitle() !== false");
+    } 
+    
+    //lstrip
+    if('   abc'.lstrip() !== 'abc'){
+        throw new Error("'   abc'.lstrip() !== 'abc'");
+    } 
+    if('   abc   '.lstrip() !== 'abc   '){
+        throw new Error("'   abc   '.lstrip() !== 'abc   '");
+    } 
+    if('---abc'.lstrip('-') !== 'abc'){
+        throw new Error("'---abc'.lstrip('-') !== 'abc'");
+    } 
+    if('---abc---'.lstrip('-') !== 'abc---'){
+        throw new Error("'---abc---'.lstrip('-') !== 'abc---'");
+    }  
+    if('abcabcabc'.lstrip('abc') !== ''){
+        throw new Error("'abcabcabc'.lstrip('abc') !== ''");
+    } 
+    
+    // count
+    if('abcabc'.count('def') !== 0){
+        throw new Error("'abcabc'.count('def') !== 0");
+    }
+    if('abcabc'.count('abc') !== 2){
+        throw new Error("'abcabc'.count('abc') !== 2");
+    }  
+    
+    // find
+    if('abcdef'.find('abc') !== 0){
+        throw new Error("'abcdef'.find('abc') !== 0");
+    } 
+    if('abcdef'.find('def') !== 3){
+        throw new Error("'abcdef'.find('def') !== 3");
+    }   
+    if('abcdef'.find('123') !== -1){
+        throw new Error("'abcdef'.find('123') !== -1");
+    }   
+    
+    // isalnum
+    if('abcdef'.isalnum() !== true){
+        throw new Error("'abcdef'.isalnum() !== true");
+    }    
+    if('123456'.isalnum() !== true){
+        throw new Error("'123456'.isalnum() !== true");
+    } 
+    if('a1b2c3'.isalnum() !== true){
+        throw new Error("'a1b2c3'.isalnum() !== true");
+    }  
+    if(' '.isalnum() !== false){
+        throw new Error("' '.isalnum() !== false");
+    }   
+    if('_*abcd'.isalnum() !== false){
+        throw new Error("'_*abcd'.isalnum() !== false");
+    }  
+    
+    // isalpha
+    if('abcdef'.isalpha() !== true){
+        throw new Error("'abcdef'.isalnum() !== true");
+    }    
+    if('123456'.isalpha() !== false){
+        throw new Error("'123456'.isalpha() !== false");
+    } 
+    if('a1b2c3'.isalpha() !== false){
+        throw new Error("'a1b2c3'.isalpha() !== false");
+    }  
+    if(' '.isalpha() !== false){
+        throw new Error("' '.isalnum() !== false");
+    }   
+    if('_*abcd'.isalpha() !== false){
+        throw new Error("'_*abcd'.isalnum() !== false");
+    }   
+    
+    // isdigit
+    if('abcdef'.isdigit() !== false){
+        throw new Error("'abcdef'.isdigit() !== false");
+    }    
+    if('123456'.isdigit() !== true){
+        throw new Error("'123456'.isdigit() !== true");
+    } 
+    if('a1b2c3'.isdigit() !== false){
+        throw new Error("'a1b2c3'.isdigit() !== false");
+    }  
+    if(' '.isdigit() !== false){
+        throw new Error("' '.isdigit() !== false");
+    }   
+    if('0004'.isdigit() !== true){
+        throw new Error("'0004'.isdigit() !== true");
+    }           
+    
+    // join
+    if(','.join([1, 2, 3]) !== '1,2,3'){
+        throw new Error("','.join([1, 2, 3]) !== '1,2,3'");
+    } 
+    if(''.join(['a', 'b', 'c']) !== 'abc'){
+        throw new Error("''.join([1, 2, 3]) !== 'abc'");
+    } 
+    if(' & '.join(['a', 'b', 'c']) !== 'a & b & c'){
+        throw new Error("' & '.join(['a', 'b', 'c']) !== 'a & b & c'");
+    }              
+         
+    // rjust
+    //if('abc'.rjust() !== 'abc'){
+    //    throw new Error("'abc'.rjust() !== 'abc'");
+    //}          
+         
+    console.log('test done');
+</script>
