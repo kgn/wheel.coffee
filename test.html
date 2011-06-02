@@ -149,13 +149,62 @@
         throw new Error("'abcabcabc'.lstrip('abc') !== ''");
     } 
     
+    //rstrip
+    if('abc   '.rstrip() !== 'abc'){
+        throw new Error("'abc   '.rstrip() !== 'abc'");
+    }
+    if('   abc   '.rstrip() !== '   abc'){
+        throw new Error("'   abc   '.rstrip() !== '   abc'");
+    }  
+    if('abc---'.rstrip('-') !== 'abc'){
+        throw new Error("'abc---'.rstrip('-') !== 'abc'");
+    }  
+    if('---abc---'.rstrip('-') !== '---abc'){
+        throw new Error("'---abc---'.rstrip('-') !== '---abc'");
+    }  
+    if('abcabcabc'.rstrip('abc') !== ''){
+        throw new Error("'abcabcabc'.rstrip('abc') !== ''");
+    } 
+    
+    //strip
+    if('abc   '.strip() !== 'abc'){
+        throw new Error("'abc   '.strip() !== 'abc'");
+    }
+    if('   abc   '.strip() !== 'abc'){
+        throw new Error("'   abc   '.strip() !== 'abc'");
+    }  
+    if('abc---'.strip('-') !== 'abc'){
+        throw new Error("'abc---'.strip('-') !== 'abc'");
+    }  
+    if('---abc---'.strip('-') !== 'abc'){
+        throw new Error("'---abc---'.strip('-') !== 'abc'");
+    }  
+    if('abcabcabc'.strip('abc') !== ''){
+        throw new Error("'abcabcabc'.strip('abc') !== ''");
+    }          
+    
     // count
     if('abcabc'.count('def') !== 0){
         throw new Error("'abcabc'.count('def') !== 0");
     }
     if('abcabc'.count('abc') !== 2){
         throw new Error("'abcabc'.count('abc') !== 2");
+    }
+    if('abcabc'.count('abc', 2) !== 1){
+        throw new Error("'abcabc'.count('abc', 2) !== 1");
+    }    
+    if('abcabc'.count('abc', 3) !== 1){
+        throw new Error("'abcabc'.count('abc', 3) !== 1");
+    }
+    if('abcabc'.count('abc', 4) !== 0){
+        throw new Error("'abcabc'.count('abc', 4) !== 0");
     }  
+    if('abcabc'.count('abc', null, -3) !== 1){
+        throw new Error("'abcabc'.count('abc', null, -3) !== 1");
+    } 
+    if('abcabc'.count('abc', null, -4) !== 0){
+        throw new Error("'abcabc'.count('abc', null, -4) !== 0");
+    }
     
     // find
     if('abcdef'.find('abc') !== 0){
@@ -166,7 +215,13 @@
     }   
     if('abcdef'.find('123') !== -1){
         throw new Error("'abcdef'.find('123') !== -1");
-    }   
+    }
+    if('abcdef'.find('def', 3) !== 3){
+        throw new Error("'abcdef'.find('def', 3) !== 3");
+    } 
+    if('abcdef'.find('def', 4) !== -1){
+        throw new Error("'abcdef'.find('def', 4) !== -1");
+    }           
     
     // isalnum
     if('abcdef'.isalnum() !== true){
@@ -183,7 +238,10 @@
     }   
     if('_*abcd'.isalnum() !== false){
         throw new Error("'_*abcd'.isalnum() !== false");
-    }  
+    } 
+    if(''.isalnum() !== false){
+        throw new Error("''.isalnum() !== false");
+    }      
     
     // isalpha
     if('abcdef'.isalpha() !== true){
@@ -200,7 +258,10 @@
     }   
     if('_*abcd'.isalpha() !== false){
         throw new Error("'_*abcd'.isalnum() !== false");
-    }   
+    } 
+    if(''.isalpha() !== false){
+        throw new Error("''.isalnum() !== false");
+    }    
     
     // isdigit
     if('abcdef'.isdigit() !== false){
@@ -217,7 +278,27 @@
     }   
     if('0004'.isdigit() !== true){
         throw new Error("'0004'.isdigit() !== true");
-    }           
+    } 
+    if(''.isdigit() !== false){
+        throw new Error("''.isdigit() !== false");
+    }   
+    
+    // isspace
+    if('abcdef'.isspace() !== false){
+        throw new Error("'abcdef'.isspace() !== false");
+    }  
+    if(' '.isspace() !== true){
+        throw new Error("' '.isspace() !== true");
+    } 
+    if('\t'.isspace() !== true){
+        throw new Error("'\\t'.isspace() !== true");
+    } 
+    if(' \t '.isspace() !== true){
+        throw new Error("' \\t '.isspace() !== true");
+    } 
+    if(' \n '.isspace() !== true){
+        throw new Error("' \\n '.isspace() !== true");
+    }                          
     
     // join
     if(','.join([1, 2, 3]) !== '1,2,3'){
@@ -228,12 +309,7 @@
     } 
     if(' & '.join(['a', 'b', 'c']) !== 'a & b & c'){
         throw new Error("' & '.join(['a', 'b', 'c']) !== 'a & b & c'");
-    }              
-         
-    // rjust
-    //if('abc'.rjust() !== 'abc'){
-    //    throw new Error("'abc'.rjust() !== 'abc'");
-    //}          
+    }
          
     console.log('test done');
 </script>
