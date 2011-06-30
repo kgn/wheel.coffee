@@ -94,6 +94,11 @@ String::isspace = -> @match(/\s+/)?[0] is @toString()
 # The separator between elements is the string.
 String::join = (a) -> a.join(@)
 
+# Test if the string contains a string.
+# Python strings do not have a 'contains' function, but javascript doesn't have a way of saying `'foo' in 'foobar'`.
+# With this method the python `in` check would be written like this: `'foobar'.contains('foo')`
+String::contains = (s) -> @indexOf(s) isnt -1
+
 # TODO: implement these
 
 # S.center(width[, fillchar]) -> string
