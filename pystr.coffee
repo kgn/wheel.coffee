@@ -136,11 +136,12 @@ String::cformat = (args...)->
     )
 
 # Return an integer hash of the string
+# From: http://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript-jquery
 String::hash = ()->
     hash = 0
     for i in [0...@length]
-        hash= (hash<<5)-hash+@charCodeAt(i)
-        hash= hash & hash # Convert to 32bit integer
+        hash = (hash<<5)-hash+@charCodeAt(i)
+        hash = hash & hash # Convert to 32bit integer
     return hash
 
 # TODO: implement these
