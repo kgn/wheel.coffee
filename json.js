@@ -1,5 +1,6 @@
 (function() {
   var _JSON, _f;
+
   _f = function(n) {
     if (n < 10) {
       return "0" + n;
@@ -7,6 +8,7 @@
       return n;
     }
   };
+
   Date.prototype._toJSON = function(key) {
     if (isFinite(this.valueOf())) {
       return this.getUTCFullYear() + '-' + _f(this.getUTCMonth() + 1) + '-' + _f(this.getUTCDate()) + 'T' + _f(this.getUTCHours()) + ':' + _f(this.getUTCMinutes()) + ':' + _f(this.getUTCSeconds()) + '.' + _f(this.getUTCMilliseconds()) + 'Z';
@@ -14,28 +16,28 @@
       return null;
     }
   };
-  if (!Date.prototype.toJSON) {
-    Date.prototype.toJSON = Date.prototype._toJSON;
-  }
+
+  if (!Date.prototype.toJSON) Date.prototype.toJSON = Date.prototype._toJSON;
+
   String.prototype._toJSON = Number.prototype._toJSON = Boolean.prototype._toJSON = function(key) {
     return this.valueOf();
   };
-  if (!String.prototype.toJSON) {
-    String.prototype.toJSON = String.prototype._toJSON;
-  }
-  if (!Number.prototype.toJSON) {
-    Number.prototype.toJSON = Number.prototype._toJSON;
-  }
+
+  if (!String.prototype.toJSON) String.prototype.toJSON = String.prototype._toJSON;
+
+  if (!Number.prototype.toJSON) Number.prototype.toJSON = Number.prototype._toJSON;
+
   if (!Boolean.prototype.toJSON) {
     Boolean.prototype.toJSON = Boolean.prototype._toJSON;
   }
+
   _JSON = (function() {
+
     function _JSON() {}
+
     _JSON.prototype.parse = function(text) {
       var array, at, ch, error, escapee, next, number, object, result, string, value, white, word;
-      if (!text) {
-        return;
-      }
+      if (!text) return;
       at = null;
       ch = ' ';
       escapee = {
@@ -52,9 +54,7 @@
         throw new SyntaxError("" + message + " at character #" + at + "(" + ch + "); for text: " + text);
       };
       next = function(c) {
-        if (c && c !== ch) {
-          error("Expected '" + c + "' instead of '" + ch);
-        }
+        if (c && c !== ch) error("Expected '" + c + "' instead of '" + ch);
         return ch = text.charAt(at++);
       };
       number = function() {
@@ -107,9 +107,7 @@
                 uffff = 0;
                 for (i = 0; i < 4; i++) {
                   hex = parseInt(next(), 16);
-                  if (!isFinite(hex)) {
-                    break;
-                  }
+                  if (!isFinite(hex)) break;
                   uffff *= 16 + hex;
                 }
                 _string += String.fromCharCode(uffff);
@@ -229,19 +227,14 @@
       };
       result = value();
       white();
-      if (ch) {
-        error('Syntax error');
-      }
+      if (ch) error('Syntax error');
       return result;
     };
+
     _JSON.prototype.stringify = function(value, replacer, space) {
       var escapable, gap, i, indent, max, meta, min, quote, s, str, _ref, _ref2;
-      if (replacer == null) {
-        replacer = null;
-      }
-      if (space == null) {
-        space = 0;
-      }
+      if (replacer == null) replacer = null;
+      if (space == null) space = 0;
       gap = '';
       indent = '';
       escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
@@ -320,9 +313,7 @@
           case 'null':
             return String(_value);
           case 'object':
-            if (!_value) {
-              return 'null';
-            }
+            if (!_value) return 'null';
             gap += indent;
             partial = [];
             if (Object.prototype.toString.apply(_value) === '[object Array]') {
@@ -337,18 +328,14 @@
                 for (k in replacer) {
                   if (typeof replacer[k] === 'string') {
                     v = str(k, _value);
-                    if (v) {
-                      partial.push(quote(k) + (gap ? ': ' : ':') + v);
-                    }
+                    if (v) partial.push(quote(k) + (gap ? ': ' : ':') + v);
                   }
                 }
               } else {
                 for (k in _value) {
                   if (Object.prototype.hasOwnProperty.call(_value, k)) {
                     v = str(k, _value);
-                    if (v) {
-                      partial.push(quote(k) + (gap ? ': ' : ':') + v);
-                    }
+                    if (v) partial.push(quote(k) + (gap ? ': ' : ':') + v);
                   }
                 }
               }
@@ -362,10 +349,13 @@
         '': value
       });
     };
+
     return _JSON;
+
   })();
+
   this._JSON = new _JSON();
-  if (!this.JSON) {
-    this.JSON = this._JSON;
-  }
+
+  if (!this.JSON) this.JSON = this._JSON;
+
 }).call(this);

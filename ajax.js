@@ -1,6 +1,8 @@
 (function() {
   var ajax, data2url, root;
+
   root = this;
+
   data2url = function(data) {
     var k, v;
     return ((function() {
@@ -13,9 +15,12 @@
       return _results;
     })()).join('&');
   };
+
   ajax = (function() {
     var request;
+
     function ajax() {}
+
     request = function(type, url, callback, async, data) {
       var body, xmlhttp;
       xmlhttp = root.ActiveXObject ? new root.ActiveXObject('Microsoft.XMLHTTP') : new root.XMLHttpRequest();
@@ -46,35 +51,35 @@
         return callback.call(type === 'xml' ? xmlhttp.responseXML : xmlhttp.responseText);
       }
     };
+
     ajax.prototype.getText = function(url, callback, async) {
-      if (async == null) {
-        async = true;
-      }
+      if (async == null) async = true;
       return request('text', url, callback, async);
     };
+
     ajax.prototype.getXML = function(url, callback, async) {
-      if (async == null) {
-        async = true;
-      }
+      if (async == null) async = true;
       return request('xml', url, callback, async);
     };
+
     ajax.prototype.postText = function(url, data, callback, async) {
-      if (async == null) {
-        async = true;
-      }
+      if (async == null) async = true;
       return request('text', url, callback, async, data);
     };
+
     ajax.prototype.postXML = function(url, data, callback, async) {
-      if (async == null) {
-        async = true;
-      }
+      if (async == null) async = true;
       return request('xml', url, callback, async, data);
     };
+
     return ajax;
+
   })();
-  if (!this.wh) {
-    this.wh = {};
-  }
+
+  if (!this.wh) this.wh = {};
+
   this.wh.ajax = new ajax();
+
   this.wh.data2url = data2url;
+
 }).call(this);
